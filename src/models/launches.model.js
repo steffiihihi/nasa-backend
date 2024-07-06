@@ -6,7 +6,7 @@ const planets=require('./planets.mongo')
 const DEFAULT_FLIGHT_NUMBER=100;
 
 async function populateLaunches(){
-    console.log("yahan aaya")
+    // console.log("yahan aaya")
     const response=await axios.post('https://api.spacexdata.com/v4/launches/query',{
         query:{},
         options:{
@@ -22,20 +22,23 @@ async function populateLaunches(){
                     path:'payloads',
                     select:{
                         name:1
+                        
                     }
                 }
             ]
         }
     })
+    // console.log(response);
 
-    const launchDocs=response.data.docs
-    console.log("HEY")
+    const launchDocs=response.data.docs;
+    // console.log(launchDocs);
     for(const launchDoc of launchDocs){
         const payloads=launchDoc['payloads']
+        console.log(launchDoc)
         console.log('Payloads:', payloads);
         const customers=payloads.flatMap((payload)=>{
-            console.log('Payload customers:', payload['customers']);
-            return payload['customers']
+            // console.log('Payload customers:', payload['customers']);
+            return payload['name']
         })
         const launch={
             flightNumber: launchDoc['flight_number'],
@@ -44,9 +47,10 @@ async function populateLaunches(){
             launchDate: launchDoc['date_local'],
             upcoming: launchDoc['upcoming'],
             success: launchDoc['success'], 
+            target: launchDoc['launchpad'],
             customers: customers
         }
-        console.log(launch.flightNumber+" "+launch.mission)
+        // console.log(launch.flightNumber+" "+launch.mission)
 
         await saveLaunch(launch)
     }
@@ -54,7 +58,7 @@ async function populateLaunches(){
 
 async function getLaunchesData(){
 
-    console.log('Launches Data loaded successfuly??')
+    // console.log('Launches Data loaded successfuly??')
 
     const lExists=await findLaunch({
         flightNumber:1,
@@ -112,7 +116,7 @@ async function scheduleNewLaunchFunction(launch){
 
 async function findLaunch(filter){
     const a=await launchesDataBase.findOne(filter)
-    console.log(a)
+    // console.log(a)
     return a
 }
 
@@ -142,3 +146,4 @@ module.exports={
     deleteLaunch,
     scheduleNewLaunchFunction
 }
+

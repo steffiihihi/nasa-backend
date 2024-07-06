@@ -7,7 +7,8 @@ const api=require('./routes/api')
 
 app.use(cors({
     origin: 'http://localhost:3000',
-    origin: 'https://nasa-frontendb.vercel.app/'
+    origin: 'https://nasa-frontendb.vercel.app/',
+    origin: 'https://nasa-frontend-six.vercel.app/'
 }))
 
 // app.use(morgan('combined'))

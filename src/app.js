@@ -6,7 +6,7 @@ const app=express()
 const api=require('./routes/api')
 
 app.use(cors({
-    origin: 'https://nasa-frontend-six.vercel.app/'
+    origin: 'https://nasa-frontend-six.vercel.app'
 }))
 
 // app.use(morgan('combined'))
